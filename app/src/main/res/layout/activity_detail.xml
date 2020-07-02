@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context="com.example.android.travelapp.activity.DetailActivity">
+
+        <ImageView
+            android:id="@+id/destinasiImageDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"/>
+
+        <TextView
+            android:id="@+id/titleDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_placeholder"
+            android:padding="16dp"
+            style="@style/TextAppearance.AppCompat.Headline"
+            android:layout_alignBottom="@id/destinasiImageDetail"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+
+        <TextView
+            android:id="@+id/infoTitleDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/news_placeholder"
+            android:padding="16dp"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_below="@id/destinasiImageDetail"
+            android:textColor="?android:textColorSecondary"/>
+
+        <TextView
+            android:id="@+id/subTitleDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/subtitle_detail_text"
+            android:paddingTop="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_below="@id/infoTitleDetail"/>
+
+        <Button
+            android:id="@+id/btnBeli"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/beli_tiket"
+            android:background="@drawable/bg_btn_blue_primary"
+            android:textColor="@android:color/white"
+            android:layout_margin="16dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/subTitleDetail"
+            />
+
+    </RelativeLayout>
+
+
+</ScrollView>

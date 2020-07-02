@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/destinasiImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"/>
+
+        <ImageView
+            android:id="@+id/iv_lokasi"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/ic_location"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="4dp"
+            android:layout_alignTop="@+id/destinasiImage"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_placeholder"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textSize="12sp"
+            android:layout_alignTop="@id/destinasiImage"
+            android:layout_toRightOf="@+id/iv_lokasi"
+            android:layout_toEndOf="@+id/iv_lokasi"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+
+        <TextView
+            android:id="@+id/destinasi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Destinasi Wisata"
+            android:padding="8dp"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_below="@id/destinasiImage" />
+
+        <TextView
+            android:id="@+id/harga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rp. 100000"
+            android:padding="8dp"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_below="@id/destinasi"/>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

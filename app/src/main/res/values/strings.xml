@@ -1,0 +1,117 @@
+<!--
+  Copyright 2018 Google Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<resources>
+    <string name="app_name">Travel App</string>
+    <string name="title_placeholder">Judul</string>
+    <string name="news_placeholder">Info</string>
+    <string name="sports_info_placeholder">Destinasi Wisata</string>
+    <string name="subtitle_detail_text">Detail</string>
+
+    <string name="night_mode">Night Mode</string>
+    <string name="day_mode">Day Mode</string>
+
+    <string name="detail_candi">
+        Borobudur adalah candi atau kuil Buddha terbesar di dunia, sekaligus salah satu monumen Buddha terbesar di dunia.
+        Monumen ini terdiri atas enam teras berbentuk bujur sangkar yang di atasnya terdapat tiga pelataran melingkar, pada dindingnya dihiasi dengan 2.672 panel relief dan aslinya terdapat 504 arca Buddha
+    </string>
+    <string name="detail_aquarium">
+        Jakarta Aquarium Indonesia yang terletak di dalam Mall Neo Soho, Jakarta, menjadi tempat wisata keluarga yang paling digemari. Mengusung tema aquarium raksasa dengan lebih dari 600 jenis satwa laut maupun daratnya, tempat wisata Jakarta Aquarium ini memiliki keunikannya tersendiri
+    </string>
+    <string name="detail_tanahlot">
+        Pura Tanah Lot merupakan bagian dari Pura Dang Kahyangan dan juga merupakan pura laut tempat pemujaan Dewa penjaga laut. Tanah Lot berasal dari dua kata yaitu tanah dan laut. Tanah yang diartikan sebagai karang seperti pulau kecil (gili), sedangkan Lot atau lod berarti laut
+    </string>
+    <string name="detail_kawahputih">
+        Kawah Putih adalah tempat wisata di Bandung yang paling terkenal. Berlokasi di Ciwidey, Jawa Barat, kurang lebih sekitar 50 KM arah selatan kota Bandung, Kawah Putih adalah sebuah danau yang terbentuk akibat dari letusan Gunung Patuha
+    </string>
+    <string name="detail_monas">
+        Monas adalah monumen peringatan setinggi 132 meter (433 kaki) yang didirikan untuk mengenang perlawanan dan perjuangan rakyat Indonesia untuk merebut kemerdekaan dari pemerintahan kolonial Hindia Belanda.
+        Tugu ini dimahkotai lidah api yang dilapisi lembaran emas yang melambangkan semangat perjuangan yang menyala-nyala.
+    </string>
+    <string name="detail_rajaampat">
+        Kepulauan Raja Ampat merupakan rangkaian empat gugusan pulau yang berdekatan dan berlokasi di barat bagian Kepala Burung (Vogelkoop) Pulau Papua. Secara administrasi, gugusan ini berada di bawah Kabupaten Raja Ampat, Provinsi Papua Barat.
+    </string>
+    <string name="detail_safari">
+        Bali safari and marine park adalah tempat bagi satwa liar di habitat aslinya dan dipadukan dengan kebudayaan khas dari Bali serta sangat cocok dikunjungi oleh pengunjung di segala usia. Taman safari ini juga sebagai rumah bagi satwa langka yang berasal dari benua Asia dan Afrika
+    </string>
+    <string name="detail_transstudio">
+        Trans Studio Bandung merupakan salah satu tempat wisata bermain yang terdapat di kota Bandung, Jawa Barat. Trans Studio Bandung adalah tempat wisata terbesar di Indonesia yang konsepnya berada di dalam ruangan. Berbagai macam wahana permainan dan pertunjukan tersedia dan bisa untuk dinikmati.
+    </string>
+
+    <string name="beli_tiket">Beli Tiket</string>
+
+    <string-array name="destinasi_titles">
+        <item>Yogyakarta</item>
+        <item>Jakarta</item>
+        <item>Bali</item>
+        <item>Bandung</item>
+        <item>Jakarta</item>
+        <item>Raja Ampat</item>
+        <item>Bali</item>
+        <item>Bandung</item>
+    </string-array>
+
+    <string-array name="destinasi_info">
+        <item>Candi Borobudur</item>
+        <item>Jakarta Aquarium</item>
+        <item>Tanah Lot</item>
+        <item>Kawah Putih</item>
+        <item>Monumen Nasional</item>
+        <item>Raja Ampat</item>
+        <item>Bali Safari dan Marine Park</item>
+        <item>Trans Studio Bandung</item>
+    </string-array>
+
+    <string-array name="destinasi_harga">
+        <item>50000</item>
+        <item>185000</item>
+        <item>20000</item>
+        <item>30000</item>
+        <item>15000</item>
+        <item>500000</item>
+        <item>175000</item>
+        <item>180000</item>
+    </string-array>
+
+    <array name="destinasi_images">
+        <item>@drawable/jogja</item>
+        <item>@drawable/aquarium</item>
+        <item>@drawable/tanahlot</item>
+        <item>@drawable/kawah</item>
+        <item>@drawable/jakarta</item>
+        <item>@drawable/rajaampat</item>
+        <item>@drawable/safari</item>
+        <item>@drawable/transstudio</item>
+    </array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="location_permission_denied">Location permissions denied,
+        please enable the permissions to use this app.
+    </string>
+    <string name="service_not_available">Service not available</string>
+    <string name="invalid_lat_long_used">Invalid coordinates used</string>
+    <string name="no_address_found">No address found</string>
+    <string name="address_text">"%1$s"</string>
+    <string name="no_location">Lokasi tidak tersedia</string>
+    <string name="loading">Loading…</string>
+    <string name="start_tracking_location">Start tracking location</string>
+    <string name="stop_tracking_location">Stop tracking location</string>
+    <string name="textview_hint">Tekan tombol untuk mengetahui lokasi</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+</resources>

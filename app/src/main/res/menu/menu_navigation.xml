@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:title="Home"
+        android:icon="@drawable/ic_home"/>
+
+    <item
+        android:id="@+id/tiket"
+        android:title="Tiket"
+        android:icon="@drawable/ic_tiket"/>
+
+    <item
+        android:id="@+id/akun"
+        android:title="Profil"
+        android:icon="@drawable/ic_profil"/>
+
+</menu>
