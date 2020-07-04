@@ -76,8 +76,8 @@ public class TiketActivity extends AppCompatActivity implements TiketView {
         tvTempat.setText(getIntent().getStringExtra("exTempat"));
 
         Intent intent = getIntent();
-        String hargatiket = intent.getStringExtra("exHarga");
-        valuehargatiket = Integer.parseInt(hargatiket);
+        int hargatiket = intent.getIntExtra("exHarga", 0);
+        valuehargatiket = hargatiket;
         tvHarga.setText(valuehargatiket.toString());
 
         //menampilkan total harga tiket

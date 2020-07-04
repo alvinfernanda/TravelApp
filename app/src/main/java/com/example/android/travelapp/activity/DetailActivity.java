@@ -20,56 +20,24 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        TextView destinasiTitle = findViewById(R.id.titleDetail);
-        TextView destinasiSubTitle = findViewById(R.id.subTitleDetail);
+        TextView destinasi = findViewById(R.id.destinasi);
+        TextView detail = findViewById(R.id.detail);
         ImageView destinasiImage = findViewById(R.id.destinasiImageDetail);
         Button btnbeli = findViewById(R.id.btnBeli);
 
-
-
-
-        destinasiTitle.setText(getIntent().getStringExtra("destinasi"));
-//        destinasiSubTitle.setText(getIntent().getStringExtra("detail"));
-        Glide.with(this).load(getIntent().getIntExtra("image_resource",0))
+        destinasi.setText(getIntent().getStringExtra("destinasi"));
+        detail.setText(getIntent().getStringExtra("detail"));
+        String gambar = getIntent().getStringExtra("gambar");
+        Glide.with(this).load(gambar)
                 .into(destinasiImage);
-
-
-        String judul = (destinasiTitle.getText().toString());
-
-        switch (judul) {
-            case "Candi Borobudur":
-                destinasiSubTitle.setText(R.string.detail_candi);
-                break;
-            case "Jakarta Aquarium":
-                destinasiSubTitle.setText(R.string.detail_aquarium);
-                break;
-            case "Tanah Lot":
-                destinasiSubTitle.setText(R.string.detail_tanahlot);
-                break;
-            case "Kawah Putih":
-                destinasiSubTitle.setText(R.string.detail_kawahputih);
-                break;
-            case "Monumen Nasional":
-                destinasiSubTitle.setText(R.string.detail_monas);
-                break;
-            case "Raja Ampat":
-                destinasiSubTitle.setText(R.string.detail_rajaampat);
-                break;
-            case "Bali Safari dan Marine Park":
-                destinasiSubTitle.setText(R.string.detail_safari);
-                break;
-            default:
-                destinasiSubTitle.setText(R.string.detail_transstudio);
-                break;
-        }
 
         btnbeli.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String title = destinasiTitle.getText().toString();
+                String title = destinasi.getText().toString();
                 Intent intents = getIntent();
                 String dataTempat = intents.getStringExtra("title");
-                String dataHarga = intents.getStringExtra("harga");
+                int dataHarga = intents.getIntExtra("harga", 0);
 
                 Intent intent = new Intent(DetailActivity.this, TiketActivity.class);
                 intent.putExtra("exDestinasi", title);

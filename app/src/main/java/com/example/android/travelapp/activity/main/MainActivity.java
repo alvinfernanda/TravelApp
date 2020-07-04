@@ -16,38 +16,45 @@
 
 package com.example.android.travelapp.activity.main;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.example.android.travelapp.R;
+import com.example.android.travelapp.activity.DetailActivity;
 import com.example.android.travelapp.activity.ProfilActivity;
 import com.example.android.travelapp.activity.keranjang.KeranjangActivity;
+import com.example.android.travelapp.model.Destinasi;
 
 import java.util.ArrayList;
+import java.util.List;
 
-/***
- * Main Activity for the Material Me app, a mock sports news application
- * with poor design choices.
- */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DestinasiView {
 
-    // Member variables.
-    private RecyclerView mRecyclerView;
-    private ArrayList<Destinasi> mDestinasiData;
-    private DestinasiAdapter mAdapter;
+    RecyclerView recyclerView;
+    SwipeRefreshLayout swipeRefresh;
 
-    private static boolean isNightMode;
+    DestinasiPresenter presenter;
+    DestinasiAdapter adapter;
+    DestinasiAdapter.ItemClickListener itemClickListener;
+    List<Destinasi> destinasi;
 
 
     @Override
@@ -55,24 +62,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize the RecyclerView.
-        mRecyclerView = findViewById(R.id.recyclerView);
+        swipeRefresh = findViewById(R.id.swipe_refresh);
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        int gridColumnCount = getResources().getInteger(R.integer.grid_column_count);
+        presenter = new DestinasiPresenter(this);
+        presenter.getData("");
 
-        // Set the Layout Manager.
-        mRecyclerView.setLayoutManager(
-                new GridLayoutManager(this, gridColumnCount));
+        swipeRefresh.setOnRefreshListener(
+                () -> presenter.getData("")
+        );
 
-        // Initialize the ArrayList that will contain the data.
-        mDestinasiData = new ArrayList<>();
-
-        // Initialize the adapter and set it to the RecyclerView.
-        mAdapter = new DestinasiAdapter(this, mDestinasiData);
-        mRecyclerView.setAdapter(mAdapter);
-
-        // Get the data.
-        initializeData();
+        itemClickListener = ((view, position) -> {
+            Intent intent = new Intent(this, DetailActivity.class);
+            intent.putExtra("id", destinasi.get(position).getId());
+            intent.putExtra("destinasi", destinasi.get(position).getNamaDestinasi());
+            intent.putExtra("harga", destinasi.get(position).getHargaDestinasi());
+            intent.putExtra("lokasi", destinasi.get(position).getLokasi());
+            intent.putExtra("detail", destinasi.get(position).getDetail());
+            intent.putExtra("gambar", destinasi.get(position).getGambar());
+            startActivity(intent);
+        });
 
         // bottom navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -102,66 +112,53 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Initialize the sports data from resources.
-     */
-    private void initializeData() {
-        TypedArray destinasiImageResources =
-                getResources().obtainTypedArray(R.array.destinasi_images);
-        // Get the resources from the XML file.
-        String[] destinasiList = getResources()
-                .getStringArray(R.array.destinasi_titles);
-        String[] destinasiInfo = getResources()
-                .getStringArray(R.array.destinasi_info);
-        String[] destinasiHarga = getResources()
-                .getStringArray(R.array.destinasi_harga);
 
-        // Clear the existing data (to avoid duplication).
-        mDestinasiData.clear();
+    @Override
+    public void showLoading() {
+        swipeRefresh.setRefreshing(true);
+    }
 
-        // Create the ArrayList of Sports objects with titles and
-        // information about each sport.
-        for(int i=0;i<destinasiList.length;i++){
-            mDestinasiData.add(new Destinasi(destinasiList[i],destinasiInfo[i],destinasiHarga[i],
-                    destinasiImageResources.getResourceId(i,0)));
-        }
+    @Override
+    public void hideLoading() {
+        swipeRefresh.setRefreshing(false);
+    }
 
-        destinasiImageResources.recycle();
+    @Override
+    public void onGetResult(List<Destinasi> destinasis) {
+        adapter = new DestinasiAdapter(this, destinasis, itemClickListener);
+        adapter.notifyDataSetChanged();
+        recyclerView.setAdapter(adapter);
 
-        // Notify the adapter of the change.
-        mAdapter.notifyDataSetChanged();
+        destinasi = destinasis;
+    }
+
+    @Override
+    public void onErrorLoading(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        int nightMode = AppCompatDelegate.getDefaultNightMode();
-        if(nightMode == AppCompatDelegate.MODE_NIGHT_YES){
-            menu.findItem(R.id.night_mode).setTitle(R.string.day_mode);
-        } else{
-            menu.findItem(R.id.night_mode).setTitle(R.string.night_mode);
-        }
-        return true;
-    }
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.night_mode) {
-            // Get the night mode state of the app.
-            int nightMode = AppCompatDelegate.getDefaultNightMode();
-            //Set the theme mode for the restarted activity
-            if (nightMode == AppCompatDelegate.MODE_NIGHT_YES) {
-                AppCompatDelegate.setDefaultNightMode
-                        (AppCompatDelegate.MODE_NIGHT_NO);
-            } else {
-                AppCompatDelegate.setDefaultNightMode
-                        (AppCompatDelegate.MODE_NIGHT_YES);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(false);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                presenter.getData(query);
+                return false;
             }
-            // Recreate the activity for the theme change to take effect.
-            recreate();
-        }
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                presenter.getData(newText);
+                return false;
+            }
+        });
         return true;
     }
-
 }

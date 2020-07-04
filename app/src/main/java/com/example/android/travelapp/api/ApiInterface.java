@@ -1,5 +1,6 @@
 package com.example.android.travelapp.api;
 
+import com.example.android.travelapp.model.Destinasi;
 import com.example.android.travelapp.model.Tiket;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface ApiInterface {
     // fungsi untuk menyimpan data
@@ -52,4 +54,7 @@ public interface ApiInterface {
             @Field("id") int id,
             @Field("bukti") String bukti
     );
+
+    @GET("get_destinasi.php")
+    Call<List<Destinasi>> getDestinasi(@Query("key") String keyword);
 }

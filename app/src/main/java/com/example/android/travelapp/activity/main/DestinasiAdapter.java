@@ -18,6 +18,8 @@ package com.example.android.travelapp.activity.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,85 +30,72 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.android.travelapp.R;
 import com.example.android.travelapp.activity.DetailActivity;
+import com.example.android.travelapp.model.Destinasi;
 
 import java.util.ArrayList;
+import java.util.List;
 
-class DestinasiAdapter extends RecyclerView.Adapter<DestinasiAdapter.ViewHolder> {
+public class DestinasiAdapter extends RecyclerView.Adapter<DestinasiAdapter.RecyclerViewAdapter> {
 
-    // Member variables.
-    private ArrayList<Destinasi> mDestinasiData;
-    private Context mContext;
+    private Context context;
+    private List<Destinasi> destinasis;
+    private ItemClickListener itemClickListener;
 
+    public DestinasiAdapter(Context context, List<Destinasi> destinasis, ItemClickListener itemClickListener) {
+        this.context = context;
+        this.destinasis = destinasis;
+        this.itemClickListener = itemClickListener;
+    }
 
-    DestinasiAdapter(Context context, ArrayList<Destinasi> destinasiData) {
-        this.mDestinasiData = destinasiData;
-        this.mContext = context;
+    @NonNull
+    @Override
+    public RecyclerViewAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.list_item,
+                parent, false);
+        return new RecyclerViewAdapter(view, itemClickListener);
     }
 
     @Override
-    public DestinasiAdapter.ViewHolder onCreateViewHolder(
-            ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(mContext).
-                inflate(R.layout.list_item, parent, false));
-    }
-
-
-    @Override
-    public void onBindViewHolder(DestinasiAdapter.ViewHolder holder,
-                                 int position) {
-        // Get current sport.
-        Destinasi currentDestinasi = mDestinasiData.get(position);
-
-        // Populate the textviews with data.
-        holder.bindTo(currentDestinasi);
+    public void onBindViewHolder(@NonNull RecyclerViewAdapter holder, int position) {
+        Destinasi destinasi = destinasis.get(position);
+        holder.tv_destinasi.setText(destinasi.getNamaDestinasi());
+        holder.tv_harga.setText("Rp. " + destinasi.getHargaDestinasi());
+        holder.tv_lokasi.setText(destinasi.getLokasi());
+        Glide.with(context).load(destinasi.getGambar()).into(holder.gambar);
     }
 
     @Override
     public int getItemCount() {
-        return mDestinasiData.size();
+        return destinasis.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class RecyclerViewAdapter extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        // Member Variables for the TextViews
-        private TextView mTitleText;
-        private TextView mDestinasiText;
-        private TextView mHarga;
-        private ImageView mDestinasiImage;
+        TextView tv_lokasi, tv_destinasi, tv_harga;
+        ImageView gambar;
+        CardView cardView;
+        ItemClickListener itemClickListener;
 
-        ViewHolder(View itemView) {
+        RecyclerViewAdapter(@NonNull View itemView, ItemClickListener itemClickListener) {
             super(itemView);
 
-            // Initialize the views.
-            mDestinasiText = itemView.findViewById(R.id.destinasi);
-            mTitleText = itemView.findViewById(R.id.title);
-            mHarga = itemView.findViewById(R.id.harga);
-            mDestinasiImage = itemView.findViewById(R.id.destinasiImage);
+            tv_lokasi = itemView.findViewById(R.id.title);
+            tv_destinasi = itemView.findViewById(R.id.destinasi);
+            tv_harga = itemView.findViewById(R.id.harga_destinasi);
+            gambar = itemView.findViewById(R.id.destinasiImage);
+            cardView = itemView.findViewById(R.id.card);
 
-            itemView.setOnClickListener(this);
-        }
-
-        void bindTo(Destinasi currentDestinasi){
-            // Populate the textviews with data.
-            mTitleText.setText(currentDestinasi.getTitle());
-            mDestinasiText.setText(currentDestinasi.getInfo());
-            mHarga.setText("Rp. " + currentDestinasi.getHarga());
-
-            Glide.with(mContext).load(currentDestinasi.getImageResource()).into(mDestinasiImage);
-
+            this.itemClickListener = itemClickListener;
+            cardView.setOnClickListener(this);
         }
 
         @Override
-        public void onClick(View view) {
-            Destinasi currentDestinasi = mDestinasiData.get(getAdapterPosition());
-
-            Intent detailIntent = new Intent(mContext, DetailActivity.class);
-            detailIntent.putExtra("title", currentDestinasi.getTitle());
-            detailIntent.putExtra("destinasi", currentDestinasi.getInfo());
-            detailIntent.putExtra("harga", currentDestinasi.getHarga());
-            detailIntent.putExtra("image_resource",
-                    currentDestinasi.getImageResource());
-            mContext.startActivity(detailIntent);
+        public void onClick(View v) {
+            itemClickListener.onItemClick(v, getAdapterPosition());
         }
+    }
+
+    public interface ItemClickListener {
+        void onItemClick(View view, int position);
     }
 }

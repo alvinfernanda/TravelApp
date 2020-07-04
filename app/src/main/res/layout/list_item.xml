@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    android:id="@+id/card">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -48,10 +49,10 @@
             android:layout_below="@id/destinasiImage" />
 
         <TextView
-            android:id="@+id/harga"
+            android:id="@+id/harga_destinasi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rp. 100000"
+            android:text="Rp. 200000"
             android:padding="8dp"
             style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_below="@id/destinasi"/>
