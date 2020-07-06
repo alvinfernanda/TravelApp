@@ -45,7 +45,7 @@ public class EditorActivity extends AppCompatActivity implements EditorView {
     EditorPresenter presenter;
 
     int id, harga, jumlah, total;
-    String destinasi, tempat,  tanggal;
+    String destinasi, tempat, tanggal, bukti;
 
     Menu actionMenu;
 
@@ -77,6 +77,7 @@ public class EditorActivity extends AppCompatActivity implements EditorView {
         total = intent.getIntExtra("total", 0);
         stotal = Integer.toString(total);
         tanggal = intent.getStringExtra("tanggal");
+        bukti = intent.getStringExtra("bukti");
 
         setDataFromIntentExtra();
 
@@ -131,17 +132,19 @@ public class EditorActivity extends AppCompatActivity implements EditorView {
                     bukti = getStringImage(bitmap);
                 }
 
-                presenter.uploadBukti(id, bukti);
+                if (uploadBukti.getDrawable() == null){
+                    btnCheckout.setEnabled(false);
+                } else {
+                    presenter.uploadBukti(id, bukti);
 
-                Intent intent = new Intent(EditorActivity.this, KeranjangActivity.class);
-                startActivity(intent);
+                    Intent intent = new Intent(EditorActivity.this, KeranjangActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
 
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -311,6 +314,7 @@ public class EditorActivity extends AppCompatActivity implements EditorView {
             etTanggal.setText(tanggal);
             editMode();
         }
+
     }
 
     private void editMode() {
@@ -318,6 +322,8 @@ public class EditorActivity extends AppCompatActivity implements EditorView {
         btnPlus.setEnabled(true);
         etTanggal.setEnabled(true);
         etTanggal.setFocusable(false);
+        btnCheckout.setVisibility(View.GONE);
+        uploadBukti.setVisibility(View.GONE);
     }
 
     private void readMode() {
@@ -325,4 +331,5 @@ public class EditorActivity extends AppCompatActivity implements EditorView {
         btnPlus.setEnabled(false);
         etTanggal.setEnabled(false);
     }
+
 }

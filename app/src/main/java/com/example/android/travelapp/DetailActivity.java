@@ -1,4 +1,4 @@
-package com.example.android.travelapp.activity;
+package com.example.android.travelapp;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.android.travelapp.R;
 import com.example.android.travelapp.activity.tiket.TiketActivity;
 
 public class DetailActivity extends AppCompatActivity {
@@ -36,7 +35,7 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String title = destinasi.getText().toString();
                 Intent intents = getIntent();
-                String dataTempat = intents.getStringExtra("title");
+                String dataTempat = intents.getStringExtra("lokasi");
                 int dataHarga = intents.getIntExtra("harga", 0);
 
                 Intent intent = new Intent(DetailActivity.this, TiketActivity.class);

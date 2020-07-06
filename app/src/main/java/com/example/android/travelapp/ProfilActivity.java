@@ -1,4 +1,4 @@
-package com.example.android.travelapp.activity;
+package com.example.android.travelapp;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -13,10 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.android.travelapp.LoginActivity;
-import com.example.android.travelapp.Preferences;
-import com.example.android.travelapp.R;
-import com.example.android.travelapp.Register2Activity;
+import com.example.android.travelapp.activity.mytiket.MyTiketActivity;
 import com.example.android.travelapp.activity.keranjang.KeranjangActivity;
 import com.example.android.travelapp.activity.main.MainActivity;
 import com.google.firebase.database.DataSnapshot;
@@ -145,10 +142,10 @@ public class ProfilActivity extends AppCompatActivity {
 
         // bottom navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.home);
+        bottomNavigationView.setSelectedItemId(R.id.akun);
         // membuat highlight icon saat diklik
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(2);
+        MenuItem menuItem = menu.getItem(3);
         menuItem.setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -159,8 +156,12 @@ public class ProfilActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         overridePendingTransition(0,0);
                         break;
-                    case R.id.tiket:
+                    case R.id.keranjang:
                         startActivity(new Intent(getApplicationContext(), KeranjangActivity.class));
+                        overridePendingTransition(0,0);
+                        break;
+                    case R.id.tiket:
+                        startActivity(new Intent(getApplicationContext(), MyTiketActivity.class));
                         overridePendingTransition(0,0);
                         break;
                     case R.id.akun:

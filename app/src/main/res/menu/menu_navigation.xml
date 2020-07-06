@@ -6,6 +6,11 @@
         android:icon="@drawable/ic_home"/>
 
     <item
+        android:id="@+id/keranjang"
+        android:title="Keranjang"
+        android:icon="@drawable/ic_cart"/>
+
+    <item
         android:id="@+id/tiket"
         android:title="Tiket"
         android:icon="@drawable/ic_tiket"/>

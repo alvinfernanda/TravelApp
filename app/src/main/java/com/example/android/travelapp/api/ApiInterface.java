@@ -29,6 +29,9 @@ public interface ApiInterface {
     @GET("tikets.php")
     Call<List<Tiket>> getTikets();
 
+    @GET("get_mytiket.php")
+    Call<List<Tiket>> getMyTikets();
+
     // fungsi untuk mengedit data
     @FormUrlEncoded
     @POST("update.php")

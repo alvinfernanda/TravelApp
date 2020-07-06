@@ -1,4 +1,4 @@
-package com.example.android.travelapp.activity.keranjang;
+package com.example.android.travelapp.activity.mytiket;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -12,37 +12,36 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.android.travelapp.activity.mytiket.MyTiketActivity;
+import com.example.android.travelapp.DetailTiket;
 import com.example.android.travelapp.R;
 import com.example.android.travelapp.ProfilActivity;
 import com.example.android.travelapp.activity.editor.EditorActivity;
+import com.example.android.travelapp.activity.keranjang.KeranjangActivity;
 import com.example.android.travelapp.activity.main.MainActivity;
 import com.example.android.travelapp.model.Tiket;
 
 import java.util.List;
 
-public class KeranjangActivity extends AppCompatActivity implements KeranjangView {
-
-    private static final int INTENT_EDIT = 200;
+public class MyTiketActivity extends AppCompatActivity implements MyTiketView {
 
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefresh;
-
-    KeranjangPresenter presenter;
-    KeranjangAdapter adapter;
-    KeranjangAdapter.ItemClickListener itemClickListener;
+    MyTiketAdapter adapter;
+    MyTiketPresenter presenter;
+    MyTiketAdapter.ItemClickListener itemClickListener;
     List<Tiket> tiket;
+    MyTiketView view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_keranjang);
+        setContentView(R.layout.activity_my_tiket);
 
         swipeRefresh = findViewById(R.id.swipe_refresh);
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        presenter = new KeranjangPresenter(this);
+        presenter = new MyTiketPresenter(this);
         presenter.getData();
 
         swipeRefresh.setOnRefreshListener(
@@ -58,7 +57,7 @@ public class KeranjangActivity extends AppCompatActivity implements KeranjangVie
             int total = tiket.get(position).getTotal();
             String tanggal = tiket.get(position).getTanggal();
 
-            Intent intent = new Intent(this, EditorActivity.class);
+            Intent intent = new Intent(this, DetailTiket.class);
             intent.putExtra("id", id);
             intent.putExtra("destinasi", destinasi);
             intent.putExtra("tempat", tempat);
@@ -72,10 +71,10 @@ public class KeranjangActivity extends AppCompatActivity implements KeranjangVie
 
         // bottom navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.keranjang);
+        bottomNavigationView.setSelectedItemId(R.id.home);
         // membuat highlight icon saat diklik
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(1);
+        MenuItem menuItem = menu.getItem(2);
         menuItem.setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -87,10 +86,10 @@ public class KeranjangActivity extends AppCompatActivity implements KeranjangVie
                         overridePendingTransition(0,0);
                         break;
                     case R.id.keranjang:
+                        startActivity(new Intent(getApplicationContext(), KeranjangActivity.class));
+                        overridePendingTransition(0,0);
                         break;
                     case R.id.tiket:
-                        startActivity(new Intent(getApplicationContext(), MyTiketActivity.class));
-                        overridePendingTransition(0,0);
                         break;
                     case R.id.akun:
                         startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
@@ -100,8 +99,8 @@ public class KeranjangActivity extends AppCompatActivity implements KeranjangVie
                 return false;
             }
         });
-
     }
+
 
     @Override
     public void showLoading() {
@@ -115,7 +114,7 @@ public class KeranjangActivity extends AppCompatActivity implements KeranjangVie
 
     @Override
     public void onGetResult(List<Tiket> tikets) {
-        adapter = new KeranjangAdapter(this, tikets, itemClickListener);
+        adapter = new MyTiketAdapter(this, tikets, itemClickListener);
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
 

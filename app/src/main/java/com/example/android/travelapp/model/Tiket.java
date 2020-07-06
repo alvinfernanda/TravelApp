@@ -20,6 +20,8 @@ public class Tiket {
     @Expose
     @SerializedName("tanggal") private String tanggal;
     @Expose
+    @SerializedName("bukti") private String bukti;
+    @Expose
     @SerializedName("success") private Boolean success;
     @Expose
     @SerializedName("message") private String message;
@@ -96,4 +98,11 @@ public class Tiket {
         this.total = total;
     }
 
+    public String getBukti() {
+        return bukti;
+    }
+
+    public void setBukti(String bukti) {
+        this.bukti = bukti;
+    }
 }

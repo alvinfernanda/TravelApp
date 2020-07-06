@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="1dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:id="@+id/card_item">
+
+
+    <RelativeLayout
+        android:padding="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_tiket"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@drawable/tiket" />
+
+        <TextView
+            android:id="@+id/destinasi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Monumen Nasional"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:layout_toRightOf="@+id/iv_tiket"
+            android:layout_toEndOf="@+id/iv_tiket"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp" />
+
+        <TextView
+            android:id="@+id/tempat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Jakarta"
+            android:layout_below="@+id/destinasi"
+            android:layout_toRightOf="@+id/iv_tiket"
+            android:layout_toEndOf="@+id/iv_tiket"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/jumlah"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3 Tiket"
+            android:textColor="@color/blueSecondary"
+            android:textSize="18sp"
+            android:gravity="end" />
+
+        <TextView
+            android:id="@+id/tanggal"
+            android:layout_below="@id/destinasi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="6 Mei 2020"
+            android:layout_marginTop="10dp"
+            android:gravity="end"/>
+
+
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>

@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +31,7 @@ public class TiketActivity extends AppCompatActivity implements TiketView {
     Integer valueJumlah = 1;
     Integer valuehargatiket = 0;
     Integer valuetotalharga = 0;
-    Button btnPlus, btnMin, btnKeranjang, btnAlamat;
+    Button btnPlus, btnMin, btnKeranjang;
     TextView jumlah, tvDestinasi, tvTempat, tvHarga, totalharga;
     EditText etTanggal;
     ProgressDialog progressDialog;
@@ -39,7 +40,6 @@ public class TiketActivity extends AppCompatActivity implements TiketView {
     TiketPresenter presenter;
 
     private static final String PRIMARY_CHANNEL_ID = "primary_notification_channel";
-    private NotificationManager mNotifyManager;
 
     private static final int NOTIFICATION_ID = 0;
 
@@ -122,9 +122,6 @@ public class TiketActivity extends AppCompatActivity implements TiketView {
         btnKeranjang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //panggil method sendNotification
-                //sendNotification();
-
                 //menyimpan data inputan kedatabase
                 String destinasi = tvDestinasi.getText().toString().trim();
                 String tempat = tvTempat.getText().toString().trim();
@@ -145,27 +142,26 @@ public class TiketActivity extends AppCompatActivity implements TiketView {
                     Intent intent = new Intent(TiketActivity.this, MainActivity.class);
                     startActivity(intent);
 
+                    //panggil method sendNotification
+                    sendNotification();
 
                     //If the Toggle is turned on, set the repeating alarm with a 15 minute interval
-                    if (alarmManager != null) {
-                        alarmManager.set
-                                (AlarmManager.ELAPSED_REALTIME,
-                                        SystemClock.elapsedRealtime() + 1000 * 300,
-                                        notifyPendingIntent);
-                    }
+//                    if (alarmManager != null) {
+//                        alarmManager.set
+//                                (AlarmManager.ELAPSED_REALTIME,
+//                                        SystemClock.elapsedRealtime() + 1000 * 300,
+//                                        notifyPendingIntent);
+//                    }
                 }
 
 
             }
         });
 
+        createNotificationChannel();
         //alarm
-        mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//        mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-
-
-
-//        createNotificationChannel();
 
     }
 
@@ -189,12 +185,12 @@ public class TiketActivity extends AppCompatActivity implements TiketView {
         tanggal.setText(dateMessage);
     }
 
-//    //fungsi untuk mengirim notifikasi
-//    public void sendNotification() {
-//        NotificationCompat.Builder notifyBuilder = getNotificationBuilder();
-//        mNotifyManager.notify(NOTIFICATION_ID, notifyBuilder.build());
-//    }
-//
+   //fungsi untuk mengirim notifikasi
+    public void sendNotification() {
+        NotificationCompat.Builder notifyBuilder = getNotificationBuilder();
+        mNotificationManager.notify(NOTIFICATION_ID, notifyBuilder.build());
+    }
+
 //    //fungsi untuk membuat notifikasi
     public void createNotificationChannel()
     {
@@ -214,25 +210,23 @@ public class TiketActivity extends AppCompatActivity implements TiketView {
         }
     }
 
+    //fungsi untuk mengambil data notifikasi
+    private NotificationCompat.Builder getNotificationBuilder(){
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent notificationPendingIntent = PendingIntent.getActivity(this,
+                NOTIFICATION_ID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-
-//
-//    //fungsi untuk mengambil data notifikasi
-//    private NotificationCompat.Builder getNotificationBuilder(){
-//        Intent notificationIntent = new Intent(this, MainActivity.class);
-//        PendingIntent notificationPendingIntent = PendingIntent.getActivity(this,
-//                NOTIFICATION_ID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//        NotificationCompat.Builder notifyBuilder = new NotificationCompat.Builder(this, PRIMARY_CHANNEL_ID)
-//                .setContentTitle("You've been notified!")
-//                .setContentText("This is your notification text.")
-//                .setContentIntent(notificationPendingIntent)
-//                .setAutoCancel(true)
-//                .setPriority(NotificationCompat.PRIORITY_HIGH)
-//                .setDefaults(NotificationCompat.DEFAULT_ALL)
-//                .setSmallIcon(R.drawable.ic_android);
-//        return notifyBuilder;
-//    }
+        NotificationCompat.Builder notifyBuilder = new NotificationCompat.Builder(this, PRIMARY_CHANNEL_ID)
+                .setContentTitle("Travel App")
+                .setContentText("Tiket berhasil dimasukan ke keranjang. " +
+                        "Silahkan untuk mengupload bukti pembayaran agar pesanan dapat diproses")
+                .setContentIntent(notificationPendingIntent)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setSmallIcon(R.drawable.ic_android);
+        return notifyBuilder;
+    }
 
 
 

@@ -17,7 +17,6 @@
 package com.example.android.travelapp.activity.main;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -29,10 +28,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.android.travelapp.R;
-import com.example.android.travelapp.activity.DetailActivity;
 import com.example.android.travelapp.model.Destinasi;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DestinasiAdapter extends RecyclerView.Adapter<DestinasiAdapter.RecyclerViewAdapter> {

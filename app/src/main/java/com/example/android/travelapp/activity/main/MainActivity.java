@@ -19,31 +19,27 @@ package com.example.android.travelapp.activity.main;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
+import com.example.android.travelapp.activity.mytiket.MyTiketActivity;
 import com.example.android.travelapp.R;
-import com.example.android.travelapp.activity.DetailActivity;
-import com.example.android.travelapp.activity.ProfilActivity;
+import com.example.android.travelapp.DetailActivity;
+import com.example.android.travelapp.ProfilActivity;
 import com.example.android.travelapp.activity.keranjang.KeranjangActivity;
 import com.example.android.travelapp.model.Destinasi;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements DestinasiView {
@@ -98,8 +94,12 @@ public class MainActivity extends AppCompatActivity implements DestinasiView {
                 switch (item.getItemId()){
                     case R.id.home:
                         break;
-                    case R.id.tiket:
+                    case R.id.keranjang:
                         startActivity(new Intent(getApplicationContext(), KeranjangActivity.class));
+                        overridePendingTransition(0,0);
+                        break;
+                    case R.id.tiket:
+                        startActivity(new Intent(getApplicationContext(), MyTiketActivity.class));
                         overridePendingTransition(0,0);
                         break;
                     case R.id.akun:
