@@ -4,28 +4,22 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.travelapp.CheckoutActivity;
+import com.example.android.travelapp.Preferences;
 import com.example.android.travelapp.R;
-import com.example.android.travelapp.activity.keranjang.KeranjangActivity;
 import com.example.android.travelapp.api.ApiInterface;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 public class EditorActivity extends AppCompatActivity implements EditorView {
 
@@ -33,10 +27,9 @@ public class EditorActivity extends AppCompatActivity implements EditorView {
     Integer valuehargatiket = 0;
     Integer valuetotalharga = 0;
     String sharga, sjumlah, stotal;
-    Button btnPlus, btnMin, btnCheckout;
+    Button btnPlus, btnMin;
     TextView tvJumlah, tvDestinasi, tvTempat, tvHarga, totalharga;
     EditText etTanggal;
-    ImageView uploadBukti;
     ProgressDialog progressDialog;
 
     private Bitmap bitmap;
@@ -44,7 +37,7 @@ public class EditorActivity extends AppCompatActivity implements EditorView {
     ApiInterface apiInterface;
     EditorPresenter presenter;
 
-    int id, harga, jumlah, total;
+    int id, id_destinasi, harga, jumlah, total;
     String destinasi, tempat, tanggal, bukti;
 
     Menu actionMenu;
@@ -57,17 +50,16 @@ public class EditorActivity extends AppCompatActivity implements EditorView {
         btnPlus = findViewById(R.id.btnPlus);
         btnMin = findViewById(R.id.btnMin);
         tvJumlah = findViewById(R.id.teks_jml);
-        btnCheckout = findViewById(R.id.btn_checkout);
         tvDestinasi = findViewById(R.id.tv_destinasi);
         tvTempat = findViewById(R.id.tv_tempat);
         tvHarga = findViewById(R.id.harga_tiket);
         etTanggal = findViewById(R.id.resTanggal);
-        uploadBukti = findViewById(R.id.upload);
         totalharga = findViewById(R.id.total_harga);
 
 
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
+        id_destinasi = intent.getIntExtra("id_destinasi", 0);
         destinasi = intent.getStringExtra("destinasi");
         tempat = intent.getStringExtra("tempat");
         harga = intent.getIntExtra("harga", 1);
@@ -113,37 +105,6 @@ public class EditorActivity extends AppCompatActivity implements EditorView {
             }
         });
 
-        uploadBukti.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pilihFile();
-            }
-        });
-
-        btnCheckout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //panggil method sendNotification
-                //sendNotification();
-                String bukti = null;
-                if (bitmap == null) {
-                    bukti = "";
-                } else {
-                    bukti = getStringImage(bitmap);
-                }
-
-                if (uploadBukti.getDrawable() == null){
-                    btnCheckout.setEnabled(false);
-                } else {
-                    presenter.uploadBukti(id, bukti);
-
-                    Intent intent = new Intent(EditorActivity.this, KeranjangActivity.class);
-                    startActivity(intent);
-                }
-            }
-        });
-
-
     }
 
     @Override
@@ -179,10 +140,11 @@ public class EditorActivity extends AppCompatActivity implements EditorView {
         String total = totalharga.getText().toString();
         int mtotal = Integer.parseInt(total);
         String mtanggal = etTanggal.getText().toString().trim();
+        String username = Preferences.getLoggedInUser(getBaseContext());
 
         switch (item.getItemId()){
             case R.id.save:
-                presenter.saveTiket(mdestinasi, mtempat, mharga, mjumlah, mtotal, mtanggal);
+                presenter.saveTiket(id_destinasi, mjumlah, mtotal, mtanggal, username);
                 return true;
 
             case R.id.edit:
@@ -195,7 +157,7 @@ public class EditorActivity extends AppCompatActivity implements EditorView {
                 return true;
 
             case R.id.update:
-                presenter.updateTiket(id, mdestinasi, mtempat, mharga, mjumlah, mtotal, mtanggal);
+                presenter.updateTiket(id, id_destinasi, mjumlah, mtotal, mtanggal);
                 return true;
 
             case R.id.delete:
@@ -236,39 +198,6 @@ public class EditorActivity extends AppCompatActivity implements EditorView {
         TextView tanggal = findViewById(R.id.resTanggal);
 
         tanggal.setText(dateMessage);
-    }
-
-    public String getStringImage(Bitmap bmp){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
-        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-        return encodedImage;
-    }
-
-    public void pilihFile(){
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-
-                uploadBukti.setImageBitmap(bitmap);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
     }
 
     @Override
@@ -322,8 +251,6 @@ public class EditorActivity extends AppCompatActivity implements EditorView {
         btnPlus.setEnabled(true);
         etTanggal.setEnabled(true);
         etTanggal.setFocusable(false);
-        btnCheckout.setVisibility(View.GONE);
-        uploadBukti.setVisibility(View.GONE);
     }
 
     private void readMode() {

@@ -33,16 +33,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.android.travelapp.Preferences;
+import com.example.android.travelapp.activity.keranjang.KeranjangAdapter;
+import com.example.android.travelapp.activity.keranjang.KeranjangPresenter;
+import com.example.android.travelapp.activity.keranjang.KeranjangView;
 import com.example.android.travelapp.activity.mytiket.MyTiketActivity;
 import com.example.android.travelapp.R;
 import com.example.android.travelapp.DetailActivity;
 import com.example.android.travelapp.ProfilActivity;
 import com.example.android.travelapp.activity.keranjang.KeranjangActivity;
 import com.example.android.travelapp.model.Destinasi;
+import com.example.android.travelapp.model.Tiket;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements DestinasiView {
+public class MainActivity extends AppCompatActivity implements DestinasiView{
 
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefresh;
@@ -51,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements DestinasiView {
     DestinasiAdapter adapter;
     DestinasiAdapter.ItemClickListener itemClickListener;
     List<Destinasi> destinasi;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +99,8 @@ public class MainActivity extends AppCompatActivity implements DestinasiView {
                     case R.id.home:
                         break;
                     case R.id.keranjang:
-                        startActivity(new Intent(getApplicationContext(), KeranjangActivity.class));
+                        Intent intent = new Intent(getApplicationContext(), KeranjangActivity.class);
+                        startActivity(intent);
                         overridePendingTransition(0,0);
                         break;
                     case R.id.tiket:

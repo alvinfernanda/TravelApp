@@ -18,12 +18,12 @@ public class TiketPresenter {
         this.view = view;
     }
 
-    void saveTiket(final String destinasi, final String tempat, final int harga, final int jumlah, final int total, final String tanggal) {
+    void saveTiket(final int id_destinasi, final int jumlah, final int total, final String tanggal, final String username) {
 
         view.showProgress();
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<Tiket> call = apiInterface.saveTiket(destinasi, tempat, harga, jumlah, total, tanggal);
+        Call<Tiket> call = apiInterface.saveTiket(id_destinasi, jumlah, total, tanggal, username);
 
         call.enqueue(new Callback<Tiket>() {
             @Override

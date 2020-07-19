@@ -17,29 +17,26 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("save.php")
     Call<Tiket> saveTiket(
-          @Field("destinasi") String destinasi,
-          @Field("tempat") String tempat,
-          @Field("harga") int harga,
+          @Field("id_destinasi") int id_destinasi,
           @Field("jumlah") int jumlah,
           @Field("total_bayar") int total,
-          @Field("tanggal") String tanggal
+          @Field("tanggal") String tanggal,
+          @Field("username") String username
     );
 
     // fungsi untuk memanggil data dari database
     @GET("tikets.php")
-    Call<List<Tiket>> getTikets();
+    Call<List<Tiket>> getTikets(@Query("username") String username);
 
     @GET("get_mytiket.php")
-    Call<List<Tiket>> getMyTikets();
+    Call<List<Tiket>> getMyTikets(@Query("username") String username);
 
     // fungsi untuk mengedit data
     @FormUrlEncoded
     @POST("update.php")
     Call<Tiket> updateTiket(
             @Field("id") int id,
-            @Field("destinasi") String destinasi,
-            @Field("tempat") String tempat,
-            @Field("harga") int harga,
+            @Field("id_destinasi") int id_destinasi,
             @Field("jumlah") int jumlah,
             @Field("total_bayar") int total,
             @Field("tanggal") String tanggal
@@ -54,7 +51,8 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("upload_bukti.php")
     Call<Tiket> uploadBukti(
-            @Field("id") int id,
+            @Field("username") String username,
+            @Field("tanggal") String tanggal,
             @Field("bukti") String bukti
     );
 

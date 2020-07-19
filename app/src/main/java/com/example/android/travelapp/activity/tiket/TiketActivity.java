@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.android.travelapp.AlarmReceiver;
 import com.example.android.travelapp.FetchAddressTask;
+import com.example.android.travelapp.Preferences;
 import com.example.android.travelapp.R;
 import com.example.android.travelapp.activity.main.MainActivity;
 import com.example.android.travelapp.api.ApiInterface;
@@ -123,10 +124,8 @@ public class TiketActivity extends AppCompatActivity implements TiketView {
             @Override
             public void onClick(View view) {
                 //menyimpan data inputan kedatabase
-                String destinasi = tvDestinasi.getText().toString().trim();
-                String tempat = tvTempat.getText().toString().trim();
-                String harga = tvHarga.getText().toString();
-                int mharga = Integer.parseInt(harga);
+                int id_destinasi = intent.getIntExtra("exId",0);
+                String username = Preferences.getLoggedInUser(getBaseContext());
                 String nilaiJumlah = jumlah.getText().toString();
                 int mjumlah = Integer.parseInt(nilaiJumlah);
                 String total = totalharga.getText().toString();
@@ -137,7 +136,7 @@ public class TiketActivity extends AppCompatActivity implements TiketView {
                     etTanggal.setError("Tanggal harus diisi!");
                     etTanggal.requestFocus();
                 } else {
-                    presenter.saveTiket(destinasi, tempat, mharga, mjumlah, mtotal, mtanggal);
+                    presenter.saveTiket(id_destinasi, mjumlah, mtotal, mtanggal, username);
 
                     Intent intent = new Intent(TiketActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -218,8 +217,7 @@ public class TiketActivity extends AppCompatActivity implements TiketView {
 
         NotificationCompat.Builder notifyBuilder = new NotificationCompat.Builder(this, PRIMARY_CHANNEL_ID)
                 .setContentTitle("Travel App")
-                .setContentText("Tiket berhasil dimasukan ke keranjang. " +
-                        "Silahkan untuk mengupload bukti pembayaran agar pesanan dapat diproses")
+                .setContentText("Tiket berhasil dimasukan ke keranjang.")
                 .setContentIntent(notificationPendingIntent)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)

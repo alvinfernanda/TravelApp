@@ -18,12 +18,12 @@ public class EditorPresenter {
         this.view = view;
     }
 
-    void saveTiket(final String destinasi, final String tempat, final int harga, final int jumlah, final int total, final String tanggal) {
+    void saveTiket(final int id_destinasi, final int jumlah, final int total, final String tanggal, final String username) {
 
         view.showProgress();
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<Tiket> call = apiInterface.saveTiket(destinasi, tempat, harga, jumlah, total, tanggal);
+        Call<Tiket> call = apiInterface.saveTiket(id_destinasi, jumlah, total, tanggal, username);
 
         call.enqueue(new Callback<Tiket>() {
             @Override
@@ -48,10 +48,10 @@ public class EditorPresenter {
         });
     }
 
-    void updateTiket(int id, String destinasi, String tempat, int harga, int jumlah, int total, String tanggal){
+    void updateTiket(int id, int id_destinasi, int jumlah, int total, String tanggal){
         view.showProgress();
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<Tiket> call = apiInterface.updateTiket(id, destinasi, tempat, harga, jumlah, total, tanggal);
+        Call<Tiket> call = apiInterface.updateTiket(id, id_destinasi, jumlah, total, tanggal);
         call.enqueue(new Callback<Tiket>() {
             @Override
             public void onResponse(@NonNull Call<Tiket> call, @NonNull Response<Tiket> response) {
@@ -100,29 +100,4 @@ public class EditorPresenter {
         });
     }
 
-    void uploadBukti(int id, String bukti){
-        view.showProgress();
-        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<Tiket> call = apiInterface.uploadBukti(id, bukti);
-        call.enqueue(new Callback<Tiket>() {
-            @Override
-            public void onResponse(@NonNull Call<Tiket> call, @NonNull Response<Tiket> response) {
-                view.hideProgress();
-                if (response.isSuccessful() && response.body() != null) {
-                    Boolean success = response.body().getSuccess();
-                    if (success) {
-                        view.onRequestSuccess(response.body().getMessage());
-                    } else {
-                        view.onRequestError(response.body().getMessage());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Tiket> call, @NonNull Throwable t) {
-                view.hideProgress();
-                view.onRequestError(t.getLocalizedMessage());
-            }
-        });
-    }
 }

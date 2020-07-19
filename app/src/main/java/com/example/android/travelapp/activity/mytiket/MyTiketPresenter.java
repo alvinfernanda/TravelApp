@@ -19,12 +19,12 @@ public class MyTiketPresenter {
         this.view = view;
     }
 
-    void getData() {
+    void getData(String username) {
         view.showLoading();
 
         //request to server
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<List<Tiket>> call = apiInterface.getMyTikets();
+        Call<List<Tiket>> call = apiInterface.getMyTikets(username);
         call.enqueue(new Callback<List<Tiket>>() {
             @Override
             public void onResponse(@NonNull Call<List<Tiket>> call, @NonNull Response<List<Tiket>> response) {

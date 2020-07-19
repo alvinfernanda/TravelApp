@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.android.travelapp.DetailTiket;
+import com.example.android.travelapp.Preferences;
 import com.example.android.travelapp.R;
 import com.example.android.travelapp.ProfilActivity;
 import com.example.android.travelapp.activity.editor.EditorActivity;
@@ -30,7 +31,6 @@ public class MyTiketActivity extends AppCompatActivity implements MyTiketView {
     MyTiketPresenter presenter;
     MyTiketAdapter.ItemClickListener itemClickListener;
     List<Tiket> tiket;
-    MyTiketView view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +41,13 @@ public class MyTiketActivity extends AppCompatActivity implements MyTiketView {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        String usernamelocal = Preferences.getLoggedInUser(getBaseContext());
+
         presenter = new MyTiketPresenter(this);
-        presenter.getData();
+        presenter.getData(usernamelocal);
 
         swipeRefresh.setOnRefreshListener(
-                () -> presenter.getData()
+                () -> presenter.getData(usernamelocal)
         );
 
         itemClickListener = ((view, position) -> {

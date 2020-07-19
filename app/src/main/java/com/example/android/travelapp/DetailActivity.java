@@ -35,10 +35,12 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String title = destinasi.getText().toString();
                 Intent intents = getIntent();
+                int id = intents.getIntExtra("id",0);
                 String dataTempat = intents.getStringExtra("lokasi");
                 int dataHarga = intents.getIntExtra("harga", 0);
 
                 Intent intent = new Intent(DetailActivity.this, TiketActivity.class);
+                intent.putExtra("exId", id);
                 intent.putExtra("exDestinasi", title);
                 intent.putExtra("exTempat", dataTempat);
                 intent.putExtra("exHarga", dataHarga);

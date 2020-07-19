@@ -8,6 +8,8 @@ public class Tiket {
     @Expose
     @SerializedName("id") private int id;
     @Expose
+    @SerializedName("id_destinasi") private int id_destinasi;
+    @Expose
     @SerializedName("destinasi") private String destinasi;
     @Expose
     @SerializedName("tempat") private String tempat;
@@ -21,6 +23,8 @@ public class Tiket {
     @SerializedName("tanggal") private String tanggal;
     @Expose
     @SerializedName("bukti") private String bukti;
+    @Expose
+    @SerializedName("username") private String username;
     @Expose
     @SerializedName("success") private Boolean success;
     @Expose
@@ -104,5 +108,21 @@ public class Tiket {
 
     public void setBukti(String bukti) {
         this.bukti = bukti;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public int getId_destinasi() {
+        return id_destinasi;
+    }
+
+    public void setId_destinasi(int id_destinasi) {
+        this.id_destinasi = id_destinasi;
     }
 }

@@ -70,8 +70,8 @@ public class Register2Activity extends AppCompatActivity implements FetchAddress
                 } else {
                     //menyimpan data username ke sharedpreferences
                     Preferences.setRegisteredUser(getBaseContext(),username);
-                    // menyimpan data user ke firebase
 
+                    // menyimpan data user ke firebase
                     reference = FirebaseDatabase .getInstance().getReference("users");
 
                     UsersHelper usersHelper = new UsersHelper(nama, password, username, alamat, telepon);

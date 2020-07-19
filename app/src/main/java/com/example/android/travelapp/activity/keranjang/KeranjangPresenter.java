@@ -14,18 +14,18 @@ import retrofit2.Response;
 
 public class KeranjangPresenter {
 
-    private KeranjangView view;
+    public KeranjangView view;
 
     public KeranjangPresenter(KeranjangView view) {
         this.view = view;
     }
 
-    void getData() {
+    public void getData(String username) {
         view.showLoading();
 
         //request to server
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<List<Tiket>> call = apiInterface.getTikets();
+        Call<List<Tiket>> call = apiInterface.getTikets(username);
         call.enqueue(new Callback<List<Tiket>>() {
             @Override
             public void onResponse(@NonNull Call<List<Tiket>> call, @NonNull Response<List<Tiket>> response) {

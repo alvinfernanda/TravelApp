@@ -10,8 +10,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.android.travelapp.CheckoutActivity;
+import com.example.android.travelapp.Preferences;
 import com.example.android.travelapp.activity.mytiket.MyTiketActivity;
 import com.example.android.travelapp.R;
 import com.example.android.travelapp.ProfilActivity;
@@ -23,51 +27,54 @@ import java.util.List;
 
 public class KeranjangActivity extends AppCompatActivity implements KeranjangView {
 
-    private static final int INTENT_EDIT = 200;
-
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefresh;
+    Button btnCheckout;
 
     KeranjangPresenter presenter;
     KeranjangAdapter adapter;
     KeranjangAdapter.ItemClickListener itemClickListener;
     List<Tiket> tiket;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_keranjang);
 
-        swipeRefresh = findViewById(R.id.swipe_refresh);
+        swipeRefresh = findViewById(R.id.swipe);
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        btnCheckout = findViewById(R.id.btn_checkout);
+
+        String usernamelocal = Preferences.getLoggedInUser(getBaseContext());
 
         presenter = new KeranjangPresenter(this);
-        presenter.getData();
+        presenter.getData(usernamelocal);
 
         swipeRefresh.setOnRefreshListener(
-                () -> presenter.getData()
+                () -> presenter.getData(usernamelocal)
         );
 
         itemClickListener = ((view, position) -> {
-            int id = tiket.get(position).getId();
-            String destinasi = tiket.get(position).getDestinasi();
-            String tempat = tiket.get(position).getTempat();
-            int harga = tiket.get(position).getHarga();
-            int jumlah = tiket.get(position).getJumlah();
-            int total = tiket.get(position).getTotal();
-            String tanggal = tiket.get(position).getTanggal();
-
             Intent intent = new Intent(this, EditorActivity.class);
-            intent.putExtra("id", id);
-            intent.putExtra("destinasi", destinasi);
-            intent.putExtra("tempat", tempat);
-            intent.putExtra("harga", harga);
-            intent.putExtra("jumlah", jumlah);
-            intent.putExtra("total", total);
-            intent.putExtra("tanggal", tanggal);
+            intent.putExtra("id", tiket.get(position).getId());
+            intent.putExtra("id_destinasi", tiket.get(position).getId_destinasi());
+            intent.putExtra("destinasi", tiket.get(position).getDestinasi());
+            intent.putExtra("tempat", tiket.get(position).getTempat());
+            intent.putExtra("harga", tiket.get(position).getHarga());
+            intent.putExtra("jumlah", tiket.get(position).getJumlah());
+            intent.putExtra("total", tiket.get(position).getTotal());
+            intent.putExtra("tanggal", tiket.get(position).getTanggal());
             intent.putExtra("bukti", tiket.get(position).getBukti());
             startActivity(intent);
+        });
+
+        btnCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), CheckoutActivity.class));
+            }
         });
 
         // bottom navigation
@@ -120,6 +127,11 @@ public class KeranjangActivity extends AppCompatActivity implements KeranjangVie
         recyclerView.setAdapter(adapter);
 
         tiket = tikets;
+
+        if (tiket.size() == 0){
+            btnCheckout.setVisibility(View.GONE);
+        }
+
     }
 
     @Override

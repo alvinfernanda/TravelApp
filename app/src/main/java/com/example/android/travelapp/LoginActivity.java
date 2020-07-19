@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.travelapp.activity.keranjang.KeranjangActivity;
+import com.example.android.travelapp.activity.keranjang.KeranjangPresenter;
+import com.example.android.travelapp.activity.keranjang.KeranjangView;
 import com.example.android.travelapp.activity.main.MainActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView buatAkun;
 
     DatabaseReference reference;
+    KeranjangPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                                 //validasi password dengan password yang ada di firebase
                                 if (password.equals(passFirebase)){
                                     // menyimpan data username ke sharedpreference sebagai session
+                                    Preferences.setRegisteredUser(getBaseContext(),username);
                                     Preferences.setLoggedInUser(getBaseContext(),Preferences.getRegisteredUser(getBaseContext()));
                                     Preferences.setLoggedInStatus(getBaseContext(),true);
 
